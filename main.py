@@ -215,6 +215,30 @@ def arrangement_maker(tec, per): # tec --> teacher name , per --> there period l
 
 '''=================================================================================================================='''
 
+
+def server_records_adder(): # stores arrangement to SQL server
+    # NOTE: For security, move credentials to environment variables or a config file in production!
+    try:
+        con = myc.connect(user='root', password='<YOUR PASSWORD>', host="localhost", database="<YOUR DATABASE NAME>")
+        cur = con.cursor()
+        today_date = datetime.date.today()
+        formatted_date = today_date.strftime("%Y-%m-%d")
+        for i in range(len(arrangement_list)):
+            lst = []
+            for j in range(len(arrangement_list[i])):
+                if arrangement_list[i][j] == '':
+                    lst.append("NULL")
+                else:
+                    lst.append(arrangement_list[i][j])
+            lst.insert(0, formatted_date)
+            sql = ("INSERT INTO TARRANGE (DT, ABTEACHER, P1, P2, P3, P4, P5, P6, P7, P8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+            cur.execute(sql, lst)
+            con.commit()
+        con.close()
+    except Exception as e:
+        print(f"Database error: {e}")
+
+
 def printing_arrangement(): # prints and saves arrangement
     try:
         ofile = open("ARRANGEMENT.CSV", 'w', newline='')
@@ -238,7 +262,7 @@ if __name__ == '__main__': # main calling area
     ab_pre_teacher_list(ab_teacher_name)
     for key, val in ab_teacher_dict.items():
         arrangement_maker(key, val)
+    server_records_adder()
     printing_arrangement()
-
 
 
