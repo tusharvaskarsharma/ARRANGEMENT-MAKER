@@ -109,11 +109,58 @@ Also prints a neat table, e.g.:
 
 
 ---
+<br>
+## 🛢️ Optional: Storing Arrangements in SQL Database
 
+> ⚠️ This section describes how to store the generated timetable arrangements in a **MySQL database**. If you're not using SQL storage, you can skip this.
+<br>
+---
+<br>
+### 📦 Table Structure
+
+Create a table named `<DATABASE NAME>` in your MySQL database with the following structure:
+
+```sql
+CREATE TABLE <DATABASE NAME> (
+    DT DATE,
+    ABTEACHER VARCHAR(100),
+    P1 VARCHAR(100),
+    P2 VARCHAR(100),
+    P3 VARCHAR(100),
+    P4 VARCHAR(100),
+    P5 VARCHAR(100),
+    P6 VARCHAR(100),
+    P7 VARCHAR(100),
+    P8 VARCHAR(100)
+);
+```
+
+<br>
+🔐 Database Connection
+The following function handles SQL operations:
+
+   user='root', <br>
+   password='<YOUR PASSWORD>', ---> your MySQL password<br>
+   host="localhost",<br>
+   database="<YOUR DATABASE NAME>" ---> the name of your database<br>
+
+<br>
+
+📝 Notes
+You must have the mysql-connector-python package installed:
+```bash
+pip install mysql-connector-python
+```
+<br>
+
+<hr>
+
+<br>
 ## 🛠 Requirements
 
 - Python 3.x
 - [tabulate](https://pypi.org/project/tabulate/)
+- [Mysql.Connector](https://dev.mysql.com/downloads/connector/j/)
 
 Install dependencies:
 
